@@ -1,8 +1,11 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./styles/app.scss";
 import { useGetUserProfileQuery } from "./apis/userApi";
 import { useDispatch, useSelector } from "react-redux";
 import { userExist, userNotExist } from "./reducers/userReducer";
+
+const Home = lazy(() => import("./pages/Home.js"));
 
 const App = () => {
   const { user, loading } = useSelector((state) => state);
@@ -20,10 +23,21 @@ const App = () => {
 
   if (loading || isLoading) return <div>Loading...</div>;
   return (
-    <>
-      <h1>App</h1>
-    </>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+      <h1>Hello Fundraisers!</h1>
+    </Suspense>
   );
 };
 
-export default App;
+const AppRouter = () => {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+};
+
+export default AppRouter;

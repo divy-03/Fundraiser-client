@@ -5,7 +5,8 @@ import { useGetUserProfileQuery } from "./apis/userApi";
 import { useDispatch, useSelector } from "react-redux";
 import { userExist, userNotExist } from "./reducers/userReducer";
 
-const Home = lazy(() => import("./pages/Home.js"));
+const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./pages/Login"));
 
 const App = () => {
   const { user, loading } = useSelector((state) => state);
@@ -26,8 +27,8 @@ const App = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
-      <h1>Hello Fundraisers!</h1>
     </Suspense>
   );
 };
